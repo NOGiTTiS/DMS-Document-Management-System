@@ -6,6 +6,8 @@ session_start();
 require_once '../config/config.php';
 
 // เรียกใช้งาน Core Libraries
+require_once '../app/helpers/role_helper.php';
+require_once '../app/helpers/telegram_helper.php'; 
 require_once '../app/helpers/session_helper.php';
 require_once '../app/helpers/status_helper.php';
 require_once '../app/core/Controller.php';

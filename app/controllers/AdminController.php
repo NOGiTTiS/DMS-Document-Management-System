@@ -17,6 +17,7 @@ class AdminController extends Controller {
         
         // โหลด Model ที่จำเป็น
         $this->userModel = $this->model('User');
+        $this->settingModel = $this->model('Setting');
     }
 
     // เมธอดหลักสำหรับแสดงรายชื่อผู้ใช้
@@ -80,14 +81,13 @@ class AdminController extends Controller {
                 'username' => trim($_POST['username']),
                 'password' => trim($_POST['password']),
                 'role' => trim($_POST['role']),
+                'telegram_chat_id' => trim($_POST['telegram_chat_id']) // <--- เพิ่มบรรทัดนี้
             ];
 
-            // ตรวจสอบว่ามีการกรอกรหัสผ่านใหม่หรือไม่
+            // ตรวจสอบรหัสผ่าน (เหมือนเดิม)
             if(!empty($data['password'])){
-                // ถ้ามี ให้ Hash รหัสผ่านใหม่
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
             } else {
-                // ถ้าไม่มี ให้ใช้ค่าว่าง เพื่อให้ Model รู้ว่าไม่ต้องอัปเดต
                 $data['password'] = '';
             }
 
@@ -141,6 +141,28 @@ class AdminController extends Controller {
             // ถ้าไม่ใช่ POST ให้ redirect กลับ
             header('location: ' . URLROOT . '/admin');
             exit();
+        }
+    }
+
+    // เมธอดสำหรับหน้าตั้งค่าระบบ
+    public function settings(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            // วนลูปบันทึกค่าทั้งหมดที่ส่งมา
+            foreach ($_POST['settings'] as $key => $value) {
+                $this->settingModel->updateSetting($key, trim($value));
+            }
+            set_flash_message('doc_message', 'บันทึกการตั้งค่าเรียบร้อยแล้ว');
+            header('location: ' . URLROOT . '/admin/settings');
+            exit();
+
+        } else {
+            // ดึงค่า Setting ทั้งหมดมาแสดง
+            $settings = $this->settingModel->getAllSettings();
+            $data = [
+                'title' => 'ตั้งค่าระบบ',
+                'settings' => $settings
+            ];
+            $this->layout('main', 'admin/settings/index', $data);
         }
     }
 }

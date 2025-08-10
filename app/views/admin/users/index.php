@@ -14,6 +14,7 @@
                 <tr>
                     <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">ชื่อ-นามสกุล</th>
                     <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Username</th>
+                    <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">Telegram ID</th>
                     <th class="w-1/4 text-left py-3 px-4 uppercase font-semibold text-sm">บทบาท</th>
                     <th class="text-center py-3 px-4 uppercase font-semibold text-sm">ดำเนินการ</th>
                 </tr>
@@ -24,19 +25,25 @@
                         <td class="py-3 px-4"><?php echo htmlspecialchars($user->fullname); ?></td>
                         <!-- แก้ไขบรรทัดนี้ -->
                         <td class="py-3 px-4"><?php echo htmlspecialchars($user->username); ?></td>
+                        <td class="py-3 px-4"><?php echo htmlspecialchars($user->telegram_chat_id ?? '-'); ?></td>
                         <td class="py-3 px-4"><?php echo ucfirst(htmlspecialchars($user->role)); ?></td>
                         <td class="text-center py-3 px-4">
-                            <a href="<?php echo URLROOT; ?>/admin/editUser/<?php echo $user->user_id; ?>" class="text-blue-500 hover:text-blue-700 mr-4" title="แก้ไข">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <!-- ปุ่มลบ (เปลี่ยนเป็นฟอร์ม) -->
-                            <?php if($user->user_id != $_SESSION['user_id']): ?>
-                                <form action="<?php echo URLROOT; ?>/admin/deleteUser/<?php echo $user->user_id; ?>" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ที่จะลบผู้ใช้นี้?');">
-                                    <button type="submit" class="text-red-500 hover:text-red-700 bg-transparent border-none cursor-pointer p-0" title="ลบ">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </form>
-                            <?php endif; ?>
+                            <!-- เพิ่ม class ของ flexbox ที่นี่ -->
+                            <div class="flex items-center justify-center space-x-4">
+                                <!-- ปุ่มแก้ไข -->
+                                <a href="<?php echo URLROOT; ?>/admin/editUser/<?php echo $user->user_id; ?>" class="text-blue-500 hover:text-blue-700" title="แก้ไข">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <!-- ปุ่มลบ (ฟอร์ม) -->
+                                <?php if($user->user_id != $_SESSION['user_id']): ?>
+                                    <form action="<?php echo URLROOT; ?>/admin/deleteUser/<?php echo $user->user_id; ?>" method="post" onsubmit="return confirm('คุณแน่ใจหรือไม่ที่จะลบผู้ใช้นี้?');">
+                                        <button type="submit" class="text-red-500 hover:text-red-700 bg-transparent border-none cursor-pointer p-0" title="ลบ">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

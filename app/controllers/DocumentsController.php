@@ -105,6 +105,25 @@ class DocumentsController extends Controller {
                  $this->redirectToShowPage($id);
             }
             if($this->documentModel->processDocumentAction($data)){
+
+                $settings = $this->settingModel->getAllSettings();
+                $botToken = $settings['telegram_bot_token'] ?? null;
+                
+                // ส่งข้อความไปยัง Telegram
+                $receiver = $this->userModel->findUserById($data['action_to']);
+                if($receiver && !empty($receiver->telegram_chat_id)){
+                    $doc = $this->documentModel->getDocumentById($id);
+                    $senderName = $_SESSION['user_fullname'];
+
+                    $message = "🔔 <b>แจ้งเตือนเอกสารใหม่</b>\n\n";
+                    $message .= "<b>เรื่อง:</b> " . htmlspecialchars($doc->doc_subject) . "\n";
+                    $message .= "<b>จาก:</b> " . htmlspecialchars($senderName) . "\n\n";
+                    $message .= "<i>" . htmlspecialchars($data['comment']) . "</i>\n\n";
+                    $message .= "คลิกเพื่อดูเอกสาร: " . URLROOT . "/documents/show/" . $id;
+
+                    sendTelegramMessage($botToken, $receiver->telegram_chat_id, $message);
+                }
+                // --- จบส่วนที่เพิ่ม ---
                 set_flash_message('doc_message', 'ส่งต่อเอกสารเรียบร้อยแล้ว');
                 $this->redirectToShowPage($id);
             } else {

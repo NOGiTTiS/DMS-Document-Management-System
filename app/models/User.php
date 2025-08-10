@@ -40,7 +40,7 @@ class User {
     // เมธอดสำหรับดึงรายชื่อผู้ใช้ทั้งหมด (ยกเว้นตัวเอง)
     public function getAllUsers($excludeUserId = null){
         // เพิ่ม username เข้าไปใน SELECT list
-        $sql = 'SELECT user_id, fullname, username, role FROM tbl_users';
+        $sql = 'SELECT user_id, fullname, username, role, telegram_chat_id FROM tbl_users';
         if ($excludeUserId) {
             $sql .= ' WHERE user_id != :exclude_id';
         }
@@ -78,11 +78,11 @@ class User {
     public function updateUser($data){
         // ตรวจสอบว่ามีการส่งรหัสผ่านใหม่มาหรือไม่
         if(!empty($data['password'])){
-            $this->db->query('UPDATE tbl_users SET fullname = :fullname, username = :username, password = :password, role = :role WHERE user_id = :id');
+            $this->db->query('UPDATE tbl_users SET fullname = :fullname, username = :username, password = :password, role = :role, telegram_chat_id = :telegram_chat_id WHERE user_id = :id');
             $this->db->bind(':password', $data['password']);
         } else {
             // ถ้าไม่มีรหัสผ่านใหม่ ก็ไม่ต้องอัปเดตคอลัมน์ password
-            $this->db->query('UPDATE tbl_users SET fullname = :fullname, username = :username, role = :role WHERE user_id = :id');
+            $this->db->query('UPDATE tbl_users SET fullname = :fullname, username = :username, role = :role, telegram_chat_id = :telegram_chat_id WHERE user_id = :id');
         }
 
         // Bind ค่าที่เหลือ
@@ -90,6 +90,7 @@ class User {
         $this->db->bind(':fullname', $data['fullname']);
         $this->db->bind(':username', $data['username']);
         $this->db->bind(':role', $data['role']);
+        $this->db->bind(':telegram_chat_id', $data['telegram_chat_id']); // <--- เพิ่มบรรทัดนี้
 
         // Execute
         if($this->db->execute()){

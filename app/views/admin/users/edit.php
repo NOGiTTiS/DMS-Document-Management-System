@@ -19,14 +19,26 @@
         <!-- Role -->
         <div class="mb-6">
             <label for="role" class="block text-gray-700 text-sm font-bold mb-2">บทบาท:</label>
-            <select name="role" class="shadow appearance-none border rounded w-full py-2 px-3">
-                <option value="teacher" <?php echo ($data['user']->role == 'teacher') ? 'selected' : ''; ?>>Teacher</option>
-                <option value="officer" <?php echo ($data['user']->role == 'officer') ? 'selected' : ''; ?>>Officer</option>
-                <option value="deputy" <?php echo ($data['user']->role == 'deputy') ? 'selected' : ''; ?>>Deputy</option>
-                <option value="director" <?php echo ($data['user']->role == 'director') ? 'selected' : ''; ?>>Director</option>
-                <option value="admin" <?php echo ($data['user']->role == 'admin') ? 'selected' : ''; ?>>Admin</option>
+            <select name="role" id="role" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <?php foreach (getAllRoles() as $role_en => $role_th): ?>
+                    <option value="<?php echo $role_en; ?>" <?php echo ($data['user']->role == $role_en) ? 'selected' : ''; ?>>
+                        <?php echo $role_th; ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
+
+        <!-- Telegram Chat ID -->
+        <div class="mb-6">
+            <label for="telegram_chat_id" class="block text-gray-700 text-sm font-bold mb-2">Telegram Chat ID:</label>
+            <input type="text" name="telegram_chat_id" class="shadow appearance-none border rounded w-full py-2 px-3" value="<?php echo htmlspecialchars($data['user']->telegram_chat_id ?? ''); ?>" placeholder="ตัวเลข Chat ID จาก @userinfobot">
+            <p class="text-xs text-gray-500 mt-1">
+                ใช้สำหรับส่งการแจ้งเตือนส่วนตัว (ไม่บังคับ)
+                <a href="https://t.me/userinfobot" target="_blank" class="text-blue-500 hover:underline">คลิกเพื่อหา ID</a>
+            </p>
+        </div>
+        <!-- *** จบส่วนที่เพิ่ม *** -->
+
         <!-- Submit Button -->
         <div class="flex items-center justify-end">
             <a href="<?php echo URLROOT; ?>/admin" class="text-gray-600 hover:text-gray-800 mr-4">ยกเลิก</a>

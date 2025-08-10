@@ -49,6 +49,10 @@
             <i class="fa-solid fa-users-cog fa-fw mr-3"></i>
             <span>จัดการผู้ใช้งาน</span>
         </a>
+        <a href="<?php echo URLROOT; ?>/admin/settings" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+            <i class="fa-solid fa-cog fa-fw mr-3"></i>
+            <span>ตั้งค่าระบบ</span>
+        </a>
         <?php endif; ?>
     </nav>
     
