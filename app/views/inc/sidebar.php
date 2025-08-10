@@ -44,7 +44,8 @@
 
         <?php if($_SESSION['user_role'] == 'admin'): ?>
         <p class="px-4 pt-4 pb-2 text-xs text-gray-400 uppercase">ตั้งค่าระบบ</p>
-        <a href="#" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+        <!-- แก้ไข href -->
+        <a href="<?php echo URLROOT; ?>/admin" class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
             <i class="fa-solid fa-users-cog fa-fw mr-3"></i>
             <span>จัดการผู้ใช้งาน</span>
         </a>

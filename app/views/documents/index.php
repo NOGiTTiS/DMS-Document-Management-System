@@ -34,7 +34,7 @@
                             <td class="py-3 px-4"><?php echo date('d/m/Y', strtotime($doc->doc_date)); ?></td>
                             <td class="text-center py-3 px-4">
                                 <span class="<?php echo getStatusBadgeClass($doc->status); ?> py-1 px-3 rounded-full text-xs font-semibold">
-                                    <?php echo htmlspecialchars($doc->status); ?>
+                                    <?php echo translateStatusToThai($doc->status); ?>
                                 </span>
                             </td>
                             <td class="text-center py-3 px-4">

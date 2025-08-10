@@ -23,7 +23,7 @@
             <div class="flex items-center">
                 <p class="mr-2"><strong>สถานะปัจจุบัน:</strong></p>
                 <span class="<?php echo getStatusBadgeClass($data['document']->status); ?> py-1 px-3 rounded-full text-xs font-semibold">
-                    <?php echo htmlspecialchars($data['document']->status); ?>
+                    <?php echo translateStatusToThai($data['document']->status); ?>
                 </span>
             </div>
         </div>
